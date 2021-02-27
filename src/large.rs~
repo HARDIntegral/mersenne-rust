@@ -1,0 +1,8 @@
+struct largeInt {
+    num_lists: Vec<i32>,
+    sign: bool,
+}
+
+pub fn exp2(x: *largeInt) {
+    println!("Test");
+}
