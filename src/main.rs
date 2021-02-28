@@ -1,8 +1,8 @@
 mod large;
 
 fn main() {
-    let mut a = large::build_int(vec![1, 2, 3, 4], true);
-    let mut b = large::build_int(vec![5, 6, 7, 8], true);
+    let mut a = vec![1, 2, 3, 4];
+    let mut b = vec![5, 6, 7, 8];
     let ans = large::mult(&mut a, &mut b);
     println!("{:?}", ans);
     for i in 0 ..10 {
