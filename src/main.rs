@@ -1,5 +1,11 @@
+mod large;
+
 fn main() {
-    for i in 0..100 {
+    let mut a = large::build_int(vec![1, 2, 3, 4], true);
+    let mut b = large::build_int(vec![5, 6, 7, 8], true);
+    let ans = large::mult(&mut a, &mut b);
+    println!("{:?}", ans);
+    for i in 0 ..10 {
         if is_prime(i) {
             //println!("{}", i);
         }
