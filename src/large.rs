@@ -30,6 +30,7 @@ fn num_digits(num: i32) -> Vec<i32> {
     v
 }
 
+// This funtion is used to make sure both input numbers are of equal length
 fn extend(num: &mut Vec<i32>, targert: i32) -> Vec<i32> {
     (*num).reverse();
     let mut i: i32 = (*num).len().try_into().unwrap();
@@ -45,6 +46,7 @@ fn extend(num: &mut Vec<i32>, targert: i32) -> Vec<i32> {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 fn add(a: &mut Vec<i32>, b: &mut Vec<i32>) -> Vec<i32> {
+    // To figure out which number is bigger and extend the shorter of the two
     if cmp::max((*a).len(), (*b).len()) == (*a).len() {
         let target_a: i32 = (*a).len().try_into().unwrap();
         let target_b: i32 = (*a).len().try_into().unwrap();
@@ -58,6 +60,7 @@ fn add(a: &mut Vec<i32>, b: &mut Vec<i32>) -> Vec<i32> {
         extend(a, target_a);
         extend(b, target_b);
     }
+
     let limit: i32 = (*a).len().try_into().unwrap(); 
     (*a).reverse();
     (*b).reverse();
@@ -65,8 +68,10 @@ fn add(a: &mut Vec<i32>, b: &mut Vec<i32>) -> Vec<i32> {
     let mut carry: Vec<i32> = vec![0];
     let mut sum: Vec<i32> = Vec::new();
 
+    // Adds individual digits much like how computers add numbers
     for i  in 0..limit {
         let dig_ans = (*a)[i as usize] + (*b)[i as usize] + carry[i as usize];
+        // To check for overflow
         if dig_ans > 9 {
             carry.push((dig_ans)/10 as i32);
             sum.push(dig_ans - 10);
@@ -75,6 +80,7 @@ fn add(a: &mut Vec<i32>, b: &mut Vec<i32>) -> Vec<i32> {
             carry.push(0);
         }
     }
+    // To remove the extra 0 at the front of the number
     sum.pop();
     sum.reverse();
 
