@@ -32,3 +32,7 @@ In the future, the Schönhage-Strassen algorithm will be implemented.
 Using this method, Lucas proved that M[127] is prime *by hand*.
 This mersenne number is the largest ever to be proven prime by hand.
 He also proved that M[67] is not prime without ever knowing what other factors besides itself and 1 were.
+
+### Karatsuba Algorithm
+
+The multiplication algorithm used to calculate powers of two and squares is the Karatsuba Multiplication Algorithm.

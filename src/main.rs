@@ -1,6 +1,10 @@
+use std::time::Instant;
+
 mod large;
 
 fn main() {
+    let before = Instant::now();
+
     let mut a = vec![1, 2, 3, 4];
     let mut b = vec![5, 6, 7, 8];
     let ans = large::mult(&mut a, &mut b);
@@ -10,6 +14,8 @@ fn main() {
             //println!("{}", i);
         }
     }
+
+    println!("Time: {:.2?}", before.elapsed()); 
 }
 
 fn is_prime(x: i64) -> bool {

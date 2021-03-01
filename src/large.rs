@@ -1,21 +1,7 @@
-// Addition
+use std::{cmp, convert::TryInto};
+
+// Funtions needed by the math funtions
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-fn add(a: &mut Vec<i32>, b: &mut Vec<i32>) -> Vec<i32> {
-    vec![3, 3] // Placeholder
-}
-
-// Multiplication
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-fn take_first_half<T>(v: &mut Vec<T>) -> Vec<T> {
-    let half = v.len() / 2;
-    v.drain(0..half - 1).collect()
-}
-
-fn take_second_half<T>(v: &mut Vec<T>) -> Vec<T> {
-    let half = v.len() / 2;
-    v.drain(half..).collect()
-}
-
 // This funtion parses a vector containing a number in the form of a vector to a 32-bit integer
 fn parser(num: &mut Vec<i32>) -> i32 {
     (*num).shrink_to_fit();
@@ -44,6 +30,69 @@ fn num_digits(num: i32) -> Vec<i32> {
     v
 }
 
+fn extend(num: &mut Vec<i32>, targert: i32) -> Vec<i32> {
+    (*num).reverse();
+    let mut i: i32 = (*num).len().try_into().unwrap();
+    while i < (targert + 1) {
+        (*num).push(0);
+        i += 1;
+    }
+    (*num).reverse();
+    num.to_vec()
+}
+
+// Addition
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+fn add(a: &mut Vec<i32>, b: &mut Vec<i32>) -> Vec<i32> {
+    if cmp::max((*a).len(), (*b).len()) == (*a).len() {
+        let target_a: i32 = (*a).len().try_into().unwrap();
+        let target_b: i32 = (*a).len().try_into().unwrap();
+
+        extend(a, target_a);
+        extend(b, target_b);
+    } else {
+        let target_a: i32 = (*b).len().try_into().unwrap();
+        let target_b: i32 = (*b).len().try_into().unwrap();
+
+        extend(a, target_a);
+        extend(b, target_b);
+    }
+    let limit: i32 = (*a).len().try_into().unwrap(); 
+    (*a).reverse();
+    (*b).reverse();
+
+    let mut carry: Vec<i32> = vec![0];
+    let mut sum: Vec<i32> = Vec::new();
+
+    for i  in 0..limit {
+        let dig_ans = (*a)[i as usize] + (*b)[i as usize] + carry[i as usize];
+        if dig_ans > 9 {
+            carry.push((dig_ans)/10 as i32);
+            sum.push(dig_ans - 10);
+        } else {
+            sum.push(dig_ans);
+            carry.push(0);
+        }
+    }
+    sum.pop();
+    sum.reverse();
+
+    sum
+}
+
+// Multiplication
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+fn take_first_half<T>(v: &mut Vec<T>) -> Vec<T> {
+    let half = v.len() / 2;
+    v.drain(0..half - 1).collect()
+}
+
+fn take_second_half<T>(v: &mut Vec<T>) -> Vec<T> {
+    let half = v.len() / 2;
+    v.drain(half..).collect()
+}
+
 // Karatsuba Algorithm
 pub fn mult(a: &mut Vec<i32>, b: &mut Vec<i32>) -> Vec<i32> {
     // To check if numbers are small enough
@@ -60,8 +109,13 @@ pub fn mult(a: &mut Vec<i32>, b: &mut Vec<i32>) -> Vec<i32> {
         let mut b_first: Vec<i32> = take_first_half(b);
         let mut b_second: Vec<i32> = take_second_half(b);
 
-        let mult_front: Vec<i32> = mult(& mut a_first, & mut b_first);
-        let mult_back: Vec<i32> = mult(& mut a_second, & mut b_second);        
+        let mut mult_front: Vec<i32> = mult(& mut a_first, & mut b_first);
+        let mut mult_back: Vec<i32> = mult(& mut a_second, & mut b_second);   
+        
+        let mut add_first: Vec<i32> = add(&mut a_first, &mut a_second);
+        let mut add_second: Vec<i32> = add(&mut b_first, &mut b_second);
+
+        let mult_mid: Vec<i32> = mult(&mut add_first, &mut add_second);
 
         vec![3, 3] // Placeholder
     }
